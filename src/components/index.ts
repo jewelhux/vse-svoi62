@@ -1,5 +1,6 @@
 export { CtaButtons } from "./CtaButtons";
 export { SectionBlock } from "./SectionBlock";
+export { Reveal } from "./Reveal";
 export { LandingHeader } from "./LandingHeader";
 export { LandingHero } from "./LandingHero";
 export { AdvantagesSection } from "./AdvantagesSection";

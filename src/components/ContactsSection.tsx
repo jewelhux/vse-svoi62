@@ -1,5 +1,5 @@
 import { Box, Link, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import type { LandingData } from "../features/landing/types";
+import type { LandingData } from "../types";
 import { CtaButtons } from "./CtaButtons";
 import { SectionBlock } from "./SectionBlock";
 
@@ -16,9 +16,18 @@ export function ContactsSection({ data }: ContactsSectionProps) {
       description="Можно сразу написать в Telegram, позвонить или приехать по адресу в Рязани."
     >
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6}>
-        <Stack bg="white" borderWidth="1px" borderRadius="xl" p={6} gap={3}>
+        <Stack
+          bg="bg.glassStrong"
+          borderWidth="1px"
+          borderColor="border.glass"
+          borderRadius="xl"
+          p={6}
+          gap={3}
+          boxShadow="shadow.glowBrand"
+          backdropFilter="blur(12px)"
+        >
           <Text fontWeight="700">Телефон</Text>
-          <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`}>
+          <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`} color="fg.default" _hover={{ color: "brand.300" }}>
             {data.contacts.phone}
           </Link>
           <Text fontWeight="700" mt={2}>
@@ -27,18 +36,19 @@ export function ContactsSection({ data }: ContactsSectionProps) {
           <Link
             href={data.contacts.telegramUrl}
             target="_blank"
-            color="blue.600"
+            color="brand.300"
+            _hover={{ color: "brand.200" }}
           >
             {data.contacts.telegramUrl}
           </Link>
           <Text fontWeight="700" mt={2}>
             Адрес
           </Text>
-          <Text>{data.contacts.address}</Text>
+          <Text color="fg.muted">{data.contacts.address}</Text>
           <Text fontWeight="700" mt={2}>
             Режим работы
           </Text>
-          <Text>{data.contacts.workingHours}</Text>
+          <Text color="fg.muted">{data.contacts.workingHours}</Text>
           <CtaButtons
             phone={data.contacts.phone}
             telegramUrl={data.contacts.telegramUrl}
@@ -48,8 +58,11 @@ export function ContactsSection({ data }: ContactsSectionProps) {
           borderRadius="xl"
           overflow="hidden"
           minH="320px"
-          bg="white"
+          bg="bg.glassStrong"
           borderWidth="1px"
+          borderColor="border.glass"
+          boxShadow="shadow.glowCyan"
+          backdropFilter="blur(12px)"
         >
           <iframe
             title="Карта автосервиса"

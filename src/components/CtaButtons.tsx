@@ -10,7 +10,7 @@ export type CtaButtonsProps = {
 export function CtaButtons({ phone, telegramUrl, compact = false }: CtaButtonsProps) {
   return (
     <HStack gap={3} flexWrap="wrap">
-      <Button asChild colorPalette="blue" size={compact ? "sm" : "md"}>
+      <Button asChild colorPalette="brand" size={compact ? "sm" : "md"}>
         <Link href={telegramUrl} target="_blank">
           <Icon as={FiSend} /> Написать в Telegram
         </Link>

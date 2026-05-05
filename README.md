@@ -18,10 +18,10 @@ yarn lint
 
 ## Где менять контент
 
-- Основной контент страницы: `src/features/landing/content.ts`
-- Типы данных секций: `src/features/landing/types.ts`
-- Основная разметка секций: `src/features/landing/LandingPage.tsx`
-- Логотип: `public/images/logo.svg`
+- Основной контент страницы: `src/content.ts`
+- Типы данных секций: `src/types.ts`
+- Основная разметка секций: `src/LandingPage.tsx`
+- Логотип: `public/images/logo.png`
 - Open Graph изображение: `public/images/og-image.svg`
 - SEO-метаданные: `app/layout.tsx`
 - `robots.txt`: `app/robots.ts`

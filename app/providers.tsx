@@ -5,6 +5,7 @@ import { CacheProvider } from "@emotion/react";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { useServerInsertedHTML } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
+import { system } from "@/theme/system";
 
 function createEmotionCache() {
   const cache = createCache({ key: "chakra", prepend: true });
@@ -58,7 +59,7 @@ export default function Providers({ children }: PropsWithChildren) {
 
   return (
     <CacheProvider value={emotionCache.cache}>
-      <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
+      <ChakraProvider value={system}>{children}</ChakraProvider>
     </CacheProvider>
   );
 }

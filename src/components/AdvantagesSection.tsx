@@ -1,6 +1,6 @@
 import { Box, Icon, SimpleGrid, Text } from "@chakra-ui/react";
 import { FiShield } from "react-icons/fi";
-import type { LandingData } from "../features/landing/types";
+import type { LandingData } from "../types";
 import { SectionBlock } from "./SectionBlock";
 
 export type AdvantagesSectionProps = {
@@ -19,16 +19,20 @@ export function AdvantagesSection({ data }: AdvantagesSectionProps) {
           <Box
             key={item.title}
             p={5}
-            bg="white"
+            bg="bg.card"
             borderRadius="xl"
             borderWidth="1px"
-            boxShadow="sm"
+            borderColor="border.glass"
+            boxShadow="shadow.glowBrand"
+            backdropFilter="blur(12px)"
+            transition="transform 180ms ease, background 180ms ease"
+            _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
           >
-            <Icon as={FiShield} color="blue.500" mb={3} />
+            <Icon as={FiShield} color="brand.400" mb={3} />
             <Text fontWeight="700" mb={2}>
               {item.title}
             </Text>
-            <Text color="gray.600">{item.description}</Text>
+            <Text color="fg.muted">{item.description}</Text>
           </Box>
         ))}
       </SimpleGrid>

@@ -1,7 +1,7 @@
 import { Box, Button, Icon, Link, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { FiArrowRight } from "react-icons/fi";
-import type { LandingData } from "../features/landing/types";
+import type { LandingData } from "../types";
 import { SectionBlock } from "./SectionBlock";
 
 export type ServicesSectionProps = {
@@ -20,19 +20,17 @@ export function ServicesSection({ data }: ServicesSectionProps) {
         {data.services.map((service) => (
           <Box
             key={service.title}
-            p={5}
-            bg="white"
+            bg="bg.card"
             borderRadius="xl"
             borderWidth="1px"
-            boxShadow="sm"
+            borderColor="border.glass"
+            boxShadow="shadow.glowCyan"
+            backdropFilter="blur(12px)"
+            transition="transform 180ms ease, background 180ms ease"
+            _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
+            overflow="hidden"
           >
-            <Box
-              mb={4}
-              borderRadius="lg"
-              overflow="hidden"
-              position="relative"
-              height="140px"
-            >
+            <Box position="relative" height={{ base: "160px", md: "180px" }}>
               <Image
                 src={service.imageSrc}
                 alt={service.title}
@@ -40,18 +38,20 @@ export function ServicesSection({ data }: ServicesSectionProps) {
                 sizes="(max-width: 48em) 100vw, (max-width: 62em) 50vw, 33vw"
                 style={{ objectFit: "cover" }}
               />
+              <Box
+                position="absolute"
+                inset={0}
+                bg="linear-gradient(180deg, rgba(13,15,20,0.10) 0%, rgba(13,15,20,0.85) 100%)"
+              />
             </Box>
-            <Text fontWeight="700" mb={2}>
-              {service.title}
-            </Text>
-            <Text color="gray.600" mb={4}>
-              {service.description}
-            </Text>
-            <Button asChild size="sm" variant="outline">
-              <Link href={data.contacts.telegramUrl} target="_blank">
-                Запросить расчет <Icon as={FiArrowRight} />
-              </Link>
-            </Button>
+            <Box p={5}>
+              <Text fontWeight="700" mb={2}>
+                {service.title}
+              </Text>
+              <Text color="fg.muted" mb={4}>
+                {service.description}
+              </Text>
+            </Box>
           </Box>
         ))}
       </SimpleGrid>

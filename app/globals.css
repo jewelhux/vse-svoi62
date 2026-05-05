@@ -10,7 +10,24 @@ body {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0d0f14;
+  color: rgba(255, 255, 255, 0.92);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+}
+
+::selection {
+  background: rgba(239, 163, 16, 0.28);
+  color: rgba(255, 255, 255, 0.92);
 }
