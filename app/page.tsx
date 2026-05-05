@@ -1,5 +1,5 @@
-import { landingContent } from "@/features/landing/content";
-import LandingPage from "@/features/landing/LandingPage";
+import { landingContent } from "@/content";
+import LandingPage from "@/LandingPage";
 
 export default function HomePage() {
   const structuredData = {
@@ -12,11 +12,11 @@ export default function HomePage() {
       "@type": "PostalAddress",
       streetAddress: landingContent.contacts.address,
       addressLocality: "Рязань",
-      addressCountry: "RU"
+      addressCountry: "RU",
     },
     openingHours: "Mo-Su",
     url: "https://vsesvoy62.ru",
-    sameAs: [landingContent.contacts.telegramUrl]
+    sameAs: [landingContent.contacts.telegramUrl],
   };
 
   return (

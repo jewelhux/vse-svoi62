@@ -1,7 +1,7 @@
 import { Box, Button, Icon, Link, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { FiArrowRight } from "react-icons/fi";
-import type { LandingData } from "../types";
+import type { LandingData } from "../features/landing/types";
 import { SectionBlock } from "./SectionBlock";
 
 export type ServicesSectionProps = {
@@ -18,8 +18,21 @@ export function ServicesSection({ data }: ServicesSectionProps) {
     >
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
         {data.services.map((service) => (
-          <Box key={service.title} p={5} bg="white" borderRadius="xl" borderWidth="1px" boxShadow="sm">
-            <Box mb={4} borderRadius="lg" overflow="hidden" position="relative" height="140px">
+          <Box
+            key={service.title}
+            p={5}
+            bg="white"
+            borderRadius="xl"
+            borderWidth="1px"
+            boxShadow="sm"
+          >
+            <Box
+              mb={4}
+              borderRadius="lg"
+              overflow="hidden"
+              position="relative"
+              height="140px"
+            >
               <Image
                 src={service.imageSrc}
                 alt={service.title}
@@ -45,4 +58,3 @@ export function ServicesSection({ data }: ServicesSectionProps) {
     </SectionBlock>
   );
 }
-

@@ -1,7 +1,15 @@
-import { Box, Heading, HStack, Icon, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  HStack,
+  Icon,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { FiCheckCircle, FiStar } from "react-icons/fi";
 import { CtaButtons } from "./CtaButtons";
-import type { LandingData } from "../types";
+import type { LandingData } from "../features/landing/types";
 
 export type LandingHeroProps = {
   data: LandingData;
@@ -38,7 +46,10 @@ export function LandingHero({ data }: LandingHeroProps) {
             </HStack>
           ))}
         </SimpleGrid>
-        <CtaButtons phone={data.contacts.phone} telegramUrl={data.contacts.telegramUrl} />
+        <CtaButtons
+          phone={data.contacts.phone}
+          telegramUrl={data.contacts.telegramUrl}
+        />
         <HStack gap={3} color="gray.600">
           <Icon as={FiStar} color="orange.400" />
           <Text>{data.ratingLabel}</Text>
@@ -47,4 +58,3 @@ export function LandingHero({ data }: LandingHeroProps) {
     </SimpleGrid>
   );
 }
-

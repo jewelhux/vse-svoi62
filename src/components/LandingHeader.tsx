@@ -1,10 +1,18 @@
 "use client";
 
-import { Button, Container, Flex, HStack, Icon, Link, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  Container,
+  Flex,
+  HStack,
+  Icon,
+  Link,
+  Stack,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { useState } from "react";
 import { CtaButtons } from "./CtaButtons";
-import type { LandingData } from "../types";
+import type { LandingData } from "../features/landing/types";
 
 export type LandingHeaderProps = {
   data: LandingData;
@@ -17,7 +25,13 @@ export function LandingHeader({ data }: LandingHeaderProps) {
     <Container maxW="1200px" py={4}>
       <Flex align="center" justify="space-between" gap={4}>
         <Link href="#" display="inline-flex" alignItems="center">
-          <Image src={data.logoSrc} alt={`${data.brandName} логотип`} width={220} height={56} priority />
+          <Image
+            src={data.logoSrc}
+            alt={`${data.brandName} логотип`}
+            width={220}
+            height={56}
+            priority
+          />
         </Link>
         <HStack display={{ base: "none", md: "flex" }} gap={6}>
           <Link href="#services">Услуги</Link>
@@ -26,9 +40,17 @@ export function LandingHeader({ data }: LandingHeaderProps) {
           <Link href="#contacts">Контакты</Link>
         </HStack>
         <HStack display={{ base: "none", lg: "flex" }}>
-          <CtaButtons phone={data.contacts.phone} telegramUrl={data.contacts.telegramUrl} compact />
+          <CtaButtons
+            phone={data.contacts.phone}
+            telegramUrl={data.contacts.telegramUrl}
+            compact
+          />
         </HStack>
-        <Button size="sm" display={{ base: "inline-flex", md: "none" }} onClick={() => setMobileMenuOpen((p) => !p)}>
+        <Button
+          size="sm"
+          display={{ base: "inline-flex", md: "none" }}
+          onClick={() => setMobileMenuOpen((p) => !p)}
+        >
           Меню
         </Button>
       </Flex>
@@ -47,10 +69,13 @@ export function LandingHeader({ data }: LandingHeaderProps) {
           <Link href="#contacts" onClick={() => setMobileMenuOpen(false)}>
             Контакты
           </Link>
-          <CtaButtons phone={data.contacts.phone} telegramUrl={data.contacts.telegramUrl} compact />
+          <CtaButtons
+            phone={data.contacts.phone}
+            telegramUrl={data.contacts.telegramUrl}
+            compact
+          />
         </Stack>
       )}
     </Container>
   );
 }
-

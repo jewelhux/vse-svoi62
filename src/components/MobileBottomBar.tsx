@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Link } from "@chakra-ui/react";
-import type { LandingData } from "../types";
+import type { LandingData } from "../features/landing/types";
 
 export type MobileBottomBarProps = {
   data: LandingData;
@@ -25,10 +25,11 @@ export function MobileBottomBar({ data }: MobileBottomBarProps) {
           </Link>
         </Button>
         <Button asChild flex={1} variant="outline">
-          <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`}>Позвонить</Link>
+          <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`}>
+            Позвонить
+          </Link>
         </Button>
       </HStack>
     </Box>
   );
 }
-

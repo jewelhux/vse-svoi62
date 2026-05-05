@@ -1,5 +1,5 @@
 import { Accordion, Text } from "@chakra-ui/react";
-import type { LandingData } from "../types";
+import type { LandingData } from "../features/landing/types";
 import { SectionBlock } from "./SectionBlock";
 
 export type FaqSectionProps = {
@@ -24,7 +24,9 @@ export function FaqSection({ data }: FaqSectionProps) {
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
             <Accordion.ItemContent>
-              <Accordion.ItemBody color="gray.600">{faqItem.answer}</Accordion.ItemBody>
+              <Accordion.ItemBody color="gray.600">
+                {faqItem.answer}
+              </Accordion.ItemBody>
             </Accordion.ItemContent>
           </Accordion.Item>
         ))}
@@ -32,4 +34,3 @@ export function FaqSection({ data }: FaqSectionProps) {
     </SectionBlock>
   );
 }
-

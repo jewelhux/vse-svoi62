@@ -1,5 +1,12 @@
-import { Box, Container, Link, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import type { LandingData } from "../types";
+import {
+  Box,
+  Container,
+  Link,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import type { LandingData } from "../features/landing/types";
 
 export type LandingFooterProps = {
   data: LandingData;
@@ -21,7 +28,9 @@ export function LandingFooter({ data }: LandingFooterProps) {
             <Link href="#contacts">Контакты</Link>
           </Stack>
           <Stack gap={2}>
-            <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`}>{data.contacts.phone}</Link>
+            <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`}>
+              {data.contacts.phone}
+            </Link>
             <Link href={data.contacts.telegramUrl} target="_blank">
               Telegram
             </Link>
@@ -32,4 +41,3 @@ export function LandingFooter({ data }: LandingFooterProps) {
     </Box>
   );
 }
-
