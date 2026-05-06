@@ -153,9 +153,8 @@ export const landingContent: LandingData = {
     mapsPlaceUrl: "https://yandex.ru/maps/-/CPWkrFml",
   },
   reviewsSource: {
-    // Важно: Яндекс обычно блокирует прямой парсинг страницы (SmartCaptcha),
-    // поэтому отзывы лучше отдавать через ваш прокси/эндпойнт.
-    endpointUrl: "/api/yandex-reviews",
+    // Для статического деплоя берем JSON из public без серверного API.
+    endpointUrl: "/data/yandex-reviews.json",
     placeUrl: "https://yandex.ru/maps/-/CPWkrFml",
   },
 };

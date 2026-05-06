@@ -22,6 +22,14 @@ yarn start
 yarn lint
 ```
 
+## Статический экспорт (для деплоя в Yandex Object Storage)
+
+Проект настроен на `output: "export"`, после сборки готовые файлы лежат в `out/`.
+
+```bash
+yarn build
+```
+
 ## Где менять контент
 
 - Основной контент страницы (тексты, услуги, контакты, ссылки): `src/content.ts`
@@ -36,10 +44,7 @@ yarn lint
 
 ## Отзывы (Яндекс)
 
-Эндпойнт отзывов: `GET /api/yandex-reviews` (`app/api/yandex-reviews/route.ts`).
-
-- По умолчанию отдаёт локальный файл: `data/yandex-reviews.json`
-- Можно прокинуть внешний JSON (сервер-сервер): переменная окружения `YANDEX_REVIEWS_JSON_URL`
+Отзывы для статической версии читаются из файла `public/data/yandex-reviews.json`.
 
 ## Контакты MVP
 
