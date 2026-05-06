@@ -27,6 +27,38 @@ import {
   ServicesSection
 } from "./components";
 
+const aboutHighlights = [
+  {
+    value: "2006",
+    description: "Работаем с автомобилями и сопровождаем ремонт от диагностики до выдачи.",
+    boxShadow: "shadow.glowBrand",
+  },
+  {
+    value: "6+",
+    description: "Основных направлений: от кузовных работ до полировки и тюнинга.",
+    boxShadow: "shadow.glowCyan",
+  },
+  {
+    value: "1",
+    description: "Основной сценарий связи: Telegram или звонок без лишних промежуточных шагов.",
+    boxShadow: "shadow.glowBrand",
+  },
+] as const;
+
+const staticCardProps = {
+  bg: "bg.card",
+  borderRadius: "xl",
+  borderWidth: "1px",
+  borderColor: "border.glass",
+  backdropFilter: "blur(12px)",
+} as const;
+
+const interactiveCardProps = {
+  ...staticCardProps,
+  transition: "transform 180ms ease, background 180ms ease",
+  _hover: { transform: "translateY(-3px)", bg: "bg.glassStrong" },
+} as const;
+
 export default function LandingPage() {
   const data = landingContent;
 
@@ -62,131 +94,95 @@ export default function LandingPage() {
         </Reveal>
 
         <Container maxW="1200px" py={{ base: 10, md: 20 }}>
+          <Reveal delayMs={40}>
+            <AdvantagesSection data={data} />
+          </Reveal>
 
-        <Reveal delayMs={40}>
-          <AdvantagesSection data={data} />
-        </Reveal>
+          <Reveal delayMs={60}>
+            <ServicesSection data={data} />
+          </Reveal>
 
-        <Reveal delayMs={60}>
-          <ServicesSection data={data} />
-        </Reveal>
+          <Reveal delayMs={80}>
+            <SectionBlock
+              title="О сервисе"
+              subtitle="Опыт, прозрачность и понятная коммуникация"
+              description={data.companyDescription}
+            >
+              <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+                {aboutHighlights.map((item) => (
+                  <Box
+                    key={item.value}
+                    {...staticCardProps}
+                    p={5}
+                    boxShadow={item.boxShadow}
+                  >
+                    <Text fontSize="3xl" fontWeight="800" color="brand.400">
+                      {item.value}
+                    </Text>
+                    <Text color="fg.muted">{item.description}</Text>
+                  </Box>
+                ))}
+              </SimpleGrid>
+            </SectionBlock>
+          </Reveal>
 
-        <Reveal delayMs={80}>
-          <SectionBlock
-            title="О сервисе"
-            subtitle="Опыт, прозрачность и понятная коммуникация"
-            description={data.companyDescription}
-          >
-          <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+          <Reveal delayMs={90}>
+            <ReviewsSection data={data} />
+          </Reveal>
+
+          <Reveal delayMs={100}>
+            <SectionBlock
+              id="process"
+              title="Процесс"
+              subtitle="Как проходит работа с сервисом"
+              description="Упростили путь клиента до нескольких понятных шагов: от обращения до выдачи автомобиля."
+            >
+              <SimpleGrid columns={{ base: 1, md: 5 }} gap={4}>
+                {data.workSteps.map((step, index) => (
+                  <Box
+                    key={step.title}
+                    {...interactiveCardProps}
+                    p={4}
+                    boxShadow="shadow.glowBrand"
+                  >
+                    <Text fontWeight="700">
+                      {index + 1}. {step.title}
+                    </Text>
+                    <Text color="fg.muted" fontSize="sm">
+                      {step.description}
+                    </Text>
+                  </Box>
+                ))}
+              </SimpleGrid>
+            </SectionBlock>
+          </Reveal>
+
+          <Reveal delayMs={110}>
             <Box
-              p={5}
-              bg="bg.card"
+              mt={16}
+              p={6}
               borderRadius="xl"
+              bg="bg.glassStrong"
               borderWidth="1px"
               borderColor="border.glass"
               boxShadow="shadow.glowBrand"
               backdropFilter="blur(12px)"
             >
-              <Text fontSize="3xl" fontWeight="800" color="brand.400">
-                2006
-              </Text>
-              <Text color="fg.muted">Работаем с автомобилями и сопровождаем ремонт от диагностики до выдачи.</Text>
+              <HStack mb={2} align="center" flexWrap="wrap">
+                <Icon as={FiClock} color="brand.400" boxSize={5} flexShrink={0} />
+                <Heading size="md">Как быстро оценить стоимость</Heading>
+              </HStack>
+              <Text color="fg.muted">{data.quickEstimateText}</Text>
             </Box>
-            <Box
-              p={5}
-              bg="bg.card"
-              borderRadius="xl"
-              borderWidth="1px"
-              borderColor="border.glass"
-              boxShadow="shadow.glowCyan"
-              backdropFilter="blur(12px)"
-            >
-              <Text fontSize="3xl" fontWeight="800" color="brand.400">
-                6+
-              </Text>
-              <Text color="fg.muted">Основных направлений: от кузовных работ до полировки и тюнинга.</Text>
-            </Box>
-            <Box
-              p={5}
-              bg="bg.card"
-              borderRadius="xl"
-              borderWidth="1px"
-              borderColor="border.glass"
-              boxShadow="shadow.glowBrand"
-              backdropFilter="blur(12px)"
-            >
-              <Text fontSize="3xl" fontWeight="800" color="brand.400">
-                1
-              </Text>
-              <Text color="fg.muted">Основной сценарий связи: Telegram или звонок без лишних промежуточных шагов.</Text>
-            </Box>
-          </SimpleGrid>
-          </SectionBlock>
-        </Reveal>
+          </Reveal>
 
-        <Reveal delayMs={90}>
-          <ReviewsSection data={data} />
-        </Reveal>
+          <Reveal delayMs={0} animate={false}>
+            <FaqSection data={data} />
+          </Reveal>
 
-        <Reveal delayMs={100}>
-          <SectionBlock
-            id="process"
-            title="Процесс"
-            subtitle="Как проходит работа с сервисом"
-            description="Упростили путь клиента до нескольких понятных шагов: от обращения до выдачи автомобиля."
-          >
-          <SimpleGrid columns={{ base: 1, md: 5 }} gap={4}>
-            {data.workSteps.map((step, index) => (
-              <Box
-                key={step.title}
-                p={4}
-                bg="bg.card"
-                borderRadius="xl"
-                borderWidth="1px"
-                borderColor="border.glass"
-                boxShadow="shadow.glowBrand"
-                backdropFilter="blur(12px)"
-                transition="transform 180ms ease, background 180ms ease"
-                _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
-              >
-                <Text fontWeight="700">
-                  {index + 1}. {step.title}
-                </Text>
-                <Text color="fg.muted" fontSize="sm">
-                  {step.description}
-                </Text>
-              </Box>
-            ))}
-          </SimpleGrid>
-          </SectionBlock>
-        </Reveal>
-
-        <Reveal delayMs={110}>
-          <Box
-            mt={16}
-            p={6}
-            borderRadius="xl"
-            bg="bg.glassStrong"
-            borderWidth="1px"
-            borderColor="border.glass"
-            boxShadow="shadow.glowBrand"
-            backdropFilter="blur(12px)"
-          >
-          <HStack mb={2} align="center" flexWrap="wrap">
-            <Icon as={FiClock} color="brand.400" boxSize={5} flexShrink={0} />
-            <Heading size="md">Как быстро оценить стоимость</Heading>
-          </HStack>
-          <Text color="fg.muted">{data.quickEstimateText}</Text>
-          </Box>
-        </Reveal>
-
-        <Reveal delayMs={0} animate={false}>
-          <FaqSection data={data} />
-        </Reveal>
-
-        <Reveal delayMs={130}>
-          <ContactsSection data={data} />
-        </Reveal>
+          <Reveal delayMs={130}>
+            <ContactsSection data={data} />
+          </Reveal>
         </Container>
       </Box>
 

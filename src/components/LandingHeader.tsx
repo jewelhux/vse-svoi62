@@ -15,10 +15,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { CtaButtons } from "./CtaButtons";
 import type { LandingData } from "../types";
+
+const navItems = [
+  { href: "#services", label: "Услуги" },
+  { href: "#process", label: "Процесс" },
+  { href: "#faq", label: "FAQ" },
+  { href: "#contacts", label: "Контакты" },
+];
 
 export type LandingHeaderProps = {
   data: LandingData;
@@ -28,26 +35,14 @@ export function LandingHeader({ data }: LandingHeaderProps) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuId = useId();
 
-  const navItems = useMemo(
-    () => [
-      { href: "#services", label: "Услуги" },
-      { href: "#process", label: "Процесс" },
-      { href: "#faq", label: "FAQ" },
-      { href: "#contacts", label: "Контакты" },
-    ],
-    [],
-  );
-
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 48em)");
-
-    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+    const handleChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
         setMobileMenuOpen(false);
       }
     };
 
-    handleChange(mediaQuery);
     mediaQuery.addEventListener("change", handleChange);
 
     return () => {

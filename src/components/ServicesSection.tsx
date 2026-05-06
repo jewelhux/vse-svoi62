@@ -1,6 +1,5 @@
-import { Box, Button, Icon, Link, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { FiArrowRight } from "react-icons/fi";
 import type { LandingData } from "../types";
 import { SectionBlock } from "./SectionBlock";
 
@@ -44,14 +43,10 @@ export function ServicesSection({ data }: ServicesSectionProps) {
                 bg="linear-gradient(180deg, rgba(13,15,20,0.10) 0%, rgba(13,15,20,0.85) 100%)"
               />
             </Box>
-            <Box p={5}>
-              <Text fontWeight="700" mb={2}>
-                {service.title}
-              </Text>
-              <Text color="fg.muted" mb={4}>
-                {service.description}
-              </Text>
-            </Box>
+            <Stack p={5} gap={2}>
+              <Text fontWeight="700">{service.title}</Text>
+              <Text color="fg.muted">{service.description}</Text>
+            </Stack>
           </Box>
         ))}
       </SimpleGrid>

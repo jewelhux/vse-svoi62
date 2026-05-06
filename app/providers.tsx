@@ -2,7 +2,7 @@
 
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { useServerInsertedHTML } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
 import { system } from "@/theme/system";

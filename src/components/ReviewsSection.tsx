@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import type { LandingData, Review } from "../types";
+import { useEffect, useState } from "react";
+import type { LandingData, Review, ReviewsApiResponse } from "../types";
 import {
   Badge,
   Box,
@@ -17,14 +17,6 @@ import { FaStar } from "react-icons/fa";
 import Image from "next/image";
 import { SectionBlock } from "./SectionBlock";
 
-type ReviewsApiResponse = {
-  reviews: Review[];
-  updatedAt?: string;
-  rating?: number;
-  ratingCount?: number;
-  placeUrl?: string;
-};
-
 function clampRating(value: number | undefined) {
   if (!Number.isFinite(value)) return undefined;
   return Math.min(5, Math.max(1, Math.round(value as number)));
@@ -34,6 +26,67 @@ function formatCurrentMonthYear() {
   const now = new Date();
   // Важно: используем текущую дату (маркетинговый блок), без привязки к API.
   return now.toLocaleDateString("ru-RU", { year: "numeric", month: "long" });
+}
+
+function getDisplayReviews(remote: ReviewsApiResponse | null, localReviews: Review[]) {
+  const remoteReviews = remote?.reviews;
+  if (!remoteReviews?.length) {
+    return localReviews.slice(0, 4);
+  }
+
+  const uniqKey = (review: Review) => `${review.author}::${review.text}`;
+  const existing = new Set(remoteReviews.map(uniqKey));
+  const reviews = [...remoteReviews];
+
+  for (const review of localReviews) {
+    if (reviews.length >= 4) {
+      break;
+    }
+
+    const key = uniqKey(review);
+    if (existing.has(key)) {
+      continue;
+    }
+
+    reviews.push(review);
+    existing.add(key);
+  }
+
+  return reviews.slice(0, 4);
+}
+
+type RenderItem =
+  | { kind: "skeleton"; key: string }
+  | { kind: "review"; key: string; review: Review };
+
+function getRenderItems(loading: boolean, remote: ReviewsApiResponse | null, reviews: Review[]): RenderItem[] {
+  if (loading && !remote) {
+    return Array.from({ length: 4 }, (_, index) => ({
+      kind: "skeleton" as const,
+      key: `sk-${index}`,
+    }));
+  }
+
+  return reviews.map((review, index) => ({
+    kind: "review" as const,
+    key: `${review.author}-${index}`,
+    review,
+  }));
+}
+
+function RatingStars({ rating, label }: { rating: number; label: string }) {
+  return (
+    <HStack gap={1} aria-label={label}>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <Icon
+          key={index}
+          as={FaStar}
+          boxSize={4}
+          color={index < rating ? "brand.400" : "rgba(255,255,255,0.22)"}
+        />
+      ))}
+    </HStack>
+  );
 }
 
 export type ReviewsSectionProps = {
@@ -49,32 +102,11 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
     (process.env.NEXT_PUBLIC_YANDEX_REVIEWS_ENDPOINT?.trim() ?? "");
 
   const placeUrl = data.reviewsSource?.placeUrl ?? data.contacts.mapsPlaceUrl;
-
-  const reviews = useMemo(() => {
-    const fromApi = remote?.reviews?.length ? remote.reviews : null;
-    const local = data.reviews ?? [];
-    if (!fromApi) return local.slice(0, 4);
-
-    const uniqKey = (r: Review) => `${r.author}::${r.text}`;
-    const existing = new Set(fromApi.map(uniqKey));
-
-    const padded = [...fromApi];
-    for (const r of local) {
-      if (padded.length >= 4) break;
-      const key = uniqKey(r);
-      if (existing.has(key)) continue;
-      padded.push(r);
-      existing.add(key);
-    }
-    return padded.slice(0, 4);
-  }, [data.reviews, remote]);
-
-  const renderItems = useMemo(() => {
-    if (loading && !remote) {
-      return Array.from({ length: 4 }, (_, idx) => ({ kind: "skeleton" as const, key: `sk-${idx}` }));
-    }
-    return reviews.map((review, idx) => ({ kind: "review" as const, key: `${review.author}-${idx}`, review }));
-  }, [loading, remote, reviews]);
+  const remoteRating = clampRating(remote?.rating);
+  const reviews = getDisplayReviews(remote, data.reviews);
+  const renderItems = getRenderItems(loading, remote, reviews);
+  const reviewPageUrl = remote?.placeUrl ?? placeUrl;
+  const hasRemoteMeta = Boolean(remote && (remoteRating || remote.ratingCount || remote.updatedAt));
 
   useEffect(() => {
     if (!endpointUrl) return;
@@ -183,20 +215,11 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
                   </Stack>
                 </Stack>
 
-                {clampRating(remote?.rating) || remote?.ratingCount || remote?.updatedAt ? (
+                {hasRemoteMeta ? (
                   <Stack position="relative" gap={2} w="full" maxW="360px">
                     {remote?.rating ? (
                       <HStack justify="center" gap={2} flexWrap="wrap">
-                        <HStack gap={1} aria-label={`Рейтинг: ${remote.rating} из 5`}>
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Icon
-                              key={i}
-                              as={FaStar}
-                              boxSize={4}
-                              color={i < (clampRating(remote.rating) ?? 0) ? "brand.400" : "rgba(255,255,255,0.22)"}
-                            />
-                          ))}
-                        </HStack>
+                        <RatingStars rating={remoteRating ?? 0} label={`Рейтинг: ${remote.rating} из 5`} />
                         <Badge
                           bg="rgba(255,255,255,0.06)"
                           borderWidth="1px"
@@ -224,9 +247,9 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
                   </Text>
                 )}
 
-                {placeUrl ? (
+                {reviewPageUrl ? (
                   <Link
-                    href={remote?.placeUrl ?? placeUrl}
+                    href={reviewPageUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     display="inline-flex"
@@ -282,7 +305,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
 
               const review = item.review;
               const rating = clampRating(review.rating);
-              const photos = review.photoUrls?.filter(Boolean) ?? [];
+              const photos = (review.photoUrls ?? []).filter(Boolean).slice(0, 8);
 
               return (
                 <Box
@@ -309,16 +332,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
                     </HStack>
 
                     {rating ? (
-                      <HStack gap={1} aria-label={`Рейтинг: ${rating} из 5`}>
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Icon
-                            key={i}
-                            as={FaStar}
-                            boxSize={4}
-                            color={i < rating ? "brand.400" : "rgba(255,255,255,0.22)"}
-                          />
-                        ))}
-                      </HStack>
+                      <RatingStars rating={rating} label={`Рейтинг: ${rating} из 5`} />
                     ) : null}
                   </Stack>
 
@@ -328,7 +342,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
 
                   {photos.length ? (
                     <SimpleGrid columns={{ base: 3, md: 4 }} gap={2}>
-                      {photos.slice(0, 8).map((url) => (
+                      {photos.map((url) => (
                         <Link
                           key={url}
                           href={url}

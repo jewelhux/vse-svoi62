@@ -6,6 +6,8 @@ export type MobileBottomBarProps = {
 };
 
 export function MobileBottomBar({ data }: MobileBottomBarProps) {
+  const phoneHref = `tel:${data.contacts.phone.replace(/\s/g, "")}`;
+
   return (
     <Box
       display={{ base: "block", md: "none" }}
@@ -69,7 +71,7 @@ export function MobileBottomBar({ data }: MobileBottomBarProps) {
             outlineOffset: "2px",
           }}
         >
-          <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`}>
+          <Link href={phoneHref}>
             Позвонить
           </Link>
         </Button>

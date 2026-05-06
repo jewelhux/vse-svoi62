@@ -16,12 +16,18 @@ export type Review = {
   text: string;
   /** 1..5, если источник отдаёт рейтинг */
   rating?: number;
-  /** ISO-строка или произвольная дата от источника */
-  date?: string;
   /** Фото, приложенные к отзыву (если есть) */
   photoUrls?: string[];
   /** Ссылка на оригинал (например, конкретный отзыв на Яндекс.Картах) */
   sourceUrl?: string;
+};
+
+export type ReviewsApiResponse = {
+  reviews: Review[];
+  updatedAt?: string;
+  rating?: number;
+  ratingCount?: number;
+  placeUrl?: string;
 };
 
 export type FaqItem = {
@@ -61,14 +67,11 @@ export type LandingData = {
   quickEstimateText: string;
   ratingLabel: string;
   contacts: ContactInfo;
-  galleryImages: string[];
   /** Настройки источника отзывов (опционально) */
   reviewsSource?: {
     /** URL JSON-эндпойнта, который отдаёт отзывы (например, ваш прокси к Яндекс) */
     endpointUrl?: string;
     /** Ссылка на Яндекс.Карты для кнопки "Смотреть все" */
     placeUrl?: string;
-    /** Текст, который поясняет источник */
-    disclosureText?: string;
   };
 };

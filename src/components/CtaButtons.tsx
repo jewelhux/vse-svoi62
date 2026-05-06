@@ -8,6 +8,7 @@ export type CtaButtonsProps = {
 };
 
 export function CtaButtons({ phone, telegramUrl, compact = false }: CtaButtonsProps) {
+  const phoneHref = `tel:${phone.replace(/\s/g, "")}`;
   const shared = {
     transition: "background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease",
     _focusVisible: {
@@ -58,7 +59,7 @@ export function CtaButtons({ phone, telegramUrl, compact = false }: CtaButtonsPr
         transition={shared.transition}
         _focusVisible={shared._focusVisible}
       >
-        <Link href={`tel:${phone.replace(/\s/g, "")}`}>
+        <Link href={phoneHref}>
           <Icon as={FiPhone} /> Позвонить
         </Link>
       </Button>

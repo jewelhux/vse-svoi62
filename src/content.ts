@@ -154,15 +154,8 @@ export const landingContent: LandingData = {
   },
   reviewsSource: {
     // Важно: Яндекс обычно блокирует прямой парсинг страницы (SmartCaptcha),
-    // поэтому отзывы лучше отдавать через ваш прокси/эндпойнт (см. VITE_YANDEX_REVIEWS_ENDPOINT).
+    // поэтому отзывы лучше отдавать через ваш прокси/эндпойнт.
     endpointUrl: "/api/yandex-reviews",
     placeUrl: "https://yandex.ru/maps/-/CPWkrFml",
-    disclosureText: "Отзывы подгружаются из Яндекс.Карт.",
   },
-  galleryImages: [
-    "/images/gallery-1.svg",
-    "/images/gallery-2.svg",
-    "/images/gallery-3.svg",
-    "/images/gallery-4.svg",
-  ],
 };

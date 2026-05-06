@@ -1,25 +1,9 @@
 import { NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import type { Review, ReviewsApiResponse } from "@/types";
 
 export const runtime = "nodejs";
-
-type Review = {
-  author: string;
-  text: string;
-  rating?: number;
-  date?: string;
-  photoUrls?: string[];
-  sourceUrl?: string;
-};
-
-type ReviewsApiResponse = {
-  reviews: Review[];
-  updatedAt?: string;
-  rating?: number;
-  ratingCount?: number;
-  placeUrl?: string;
-};
 
 async function readLocalJson(): Promise<ReviewsApiResponse> {
   const filePath = path.join(process.cwd(), "data", "yandex-reviews.json");
