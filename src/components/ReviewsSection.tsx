@@ -15,6 +15,7 @@ import {
 import { FiExternalLink } from "react-icons/fi";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
+import { withBasePath } from "@/lib/withBasePath";
 import { SectionBlock } from "./SectionBlock";
 
 function clampRating(value: number | undefined) {
@@ -98,8 +99,8 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
   const [loading, setLoading] = useState(false);
 
   const endpointUrl =
-    data.reviewsSource?.endpointUrl?.trim() ||
-    (process.env.NEXT_PUBLIC_YANDEX_REVIEWS_ENDPOINT?.trim() ?? "");
+    withBasePath(data.reviewsSource?.endpointUrl?.trim() || "") ||
+    withBasePath(process.env.NEXT_PUBLIC_YANDEX_REVIEWS_ENDPOINT?.trim() ?? "");
 
   const placeUrl = data.reviewsSource?.placeUrl ?? data.contacts.mapsPlaceUrl;
   const remoteRating = clampRating(remote?.rating);
@@ -199,7 +200,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
                 />
                 <Stack position="relative" gap={3} align="center">
                   <Image
-                    src="/images/icons/yandex_goodplace.svg"
+                    src={withBasePath("/images/icons/yandex_goodplace.svg")}
                     alt="Яндекс Карты — Хорошее место"
                     width={88}
                     height={88}

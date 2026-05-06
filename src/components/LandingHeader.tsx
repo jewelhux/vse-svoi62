@@ -19,6 +19,7 @@ import { useEffect, useId, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { CtaButtons } from "./CtaButtons";
 import type { LandingData } from "../types";
+import { withBasePath } from "@/lib/withBasePath";
 
 const navItems = [
   { href: "#services", label: "Услуги" },
@@ -63,7 +64,7 @@ export function LandingHeader({ data }: LandingHeaderProps) {
         <Flex align="center" justify="space-between" gap={4}>
           <Link href="#" display="inline-flex" alignItems="center">
             <Image
-              src={data.logoSrc}
+              src={withBasePath(data.logoSrc)}
               alt={`${data.brandName} логотип`}
               width={184}
               height={44}

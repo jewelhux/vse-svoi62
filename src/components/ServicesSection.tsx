@@ -1,5 +1,6 @@
 import { Box, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { withBasePath } from "@/lib/withBasePath";
 import type { LandingData } from "../types";
 import { SectionBlock } from "./SectionBlock";
 
@@ -31,7 +32,7 @@ export function ServicesSection({ data }: ServicesSectionProps) {
           >
             <Box position="relative" height={{ base: "160px", md: "180px" }}>
               <Image
-                src={service.imageSrc}
+                src={withBasePath(service.imageSrc)}
                 alt={service.title}
                 fill
                 sizes="(max-width: 48em) 100vw, (max-width: 62em) 50vw, 33vw"

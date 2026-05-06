@@ -14,6 +14,7 @@ import { FiCheckCircle, FiClock, FiMapPin, FiStar } from "react-icons/fi";
 import type { LandingData } from "../types";
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { withBasePath } from "@/lib/withBasePath";
 
 export type LandingHeroProps = {
   data: LandingData;
@@ -28,7 +29,7 @@ export function LandingHero({ data }: LandingHeroProps) {
       minH={{ base: "520px", md: "620px" }}
     >
       <Image
-        src="/images/services/background.jpg"
+        src={withBasePath("/images/services/background.jpg")}
         alt="Автосервис — фон"
         fill
         sizes="100vw"
@@ -161,7 +162,7 @@ export function LandingHero({ data }: LandingHeroProps) {
                 <Stack gap={2}>
                   <HStack gap={2} align="center">
                     <Image
-                      src="/images/icons/yandex_goodplace.svg"
+                      src={withBasePath("/images/icons/yandex_goodplace.svg")}
                       alt="Награда Яндекс Карты «Хорошее место»"
                       width={22}
                       height={22}

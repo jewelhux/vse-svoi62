@@ -1,18 +1,11 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { withBasePath } from "@/lib/withBasePath";
 import type { LandingData } from "../types";
 import { SectionBlock } from "./SectionBlock";
 
 export type AdvantagesSectionProps = {
   data: LandingData;
 };
-
-function withBasePath(src: string) {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  if (!src.startsWith("/") || !basePath) {
-    return src;
-  }
-  return `${basePath}${src}`;
-}
 
 /** SVG в public с чёрной заливкой: цвет задаётся токеном `brand` через mask. */
 function AdvantageIcon({ src }: { src: string }) {
