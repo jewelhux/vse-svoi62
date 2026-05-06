@@ -6,8 +6,18 @@ export type AdvantagesSectionProps = {
   data: LandingData;
 };
 
+function withBasePath(src: string) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  if (!src.startsWith("/") || !basePath) {
+    return src;
+  }
+  return `${basePath}${src}`;
+}
+
 /** SVG в public с чёрной заливкой: цвет задаётся токеном `brand` через mask. */
 function AdvantageIcon({ src }: { src: string }) {
+  const iconSrc = withBasePath(src);
+
   return (
     <Box
       aria-hidden
@@ -17,11 +27,11 @@ function AdvantageIcon({ src }: { src: string }) {
       flexShrink={0}
       bg="brand.400"
       style={{
-        WebkitMaskImage: `url(${src})`,
+        WebkitMaskImage: `url(${iconSrc})`,
         WebkitMaskRepeat: "no-repeat",
         WebkitMaskPosition: "center",
         WebkitMaskSize: "contain",
-        maskImage: `url(${src})`,
+        maskImage: `url(${iconSrc})`,
         maskRepeat: "no-repeat",
         maskPosition: "center",
         maskSize: "contain",
