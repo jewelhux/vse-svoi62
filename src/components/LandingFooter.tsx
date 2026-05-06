@@ -1,6 +1,7 @@
 import {
   Box,
   Container,
+  Link,
   Text,
 } from "@chakra-ui/react";
 import type { LandingData } from "../types";
@@ -23,6 +24,13 @@ export function LandingFooter({ data }: LandingFooterProps) {
       <Container maxW="1200px">
         <Text fontSize="sm" color="fg.subtle" textAlign="center">
           {data.brandName} — автосервис в Рязани. © Все права защищены.
+        </Text>
+        <Text mt={2} fontSize="sm" color="fg.subtle" textAlign="center">
+          Сайт разработал: Данилов Илья Игоревич. Контакты:{" "}
+          <Link href="tel:+79251394455">+79251394455</Link>. Telegram:{" "}
+          <Link href="https://t.me/jewelhux">
+            @jewelhux
+          </Link>
         </Text>
       </Container>
     </Box>

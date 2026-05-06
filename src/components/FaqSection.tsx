@@ -29,8 +29,7 @@ export function FaqSection({ data }: FaqSectionProps) {
               overflow="hidden"
               backdropFilter="blur(12px)"
               boxShadow="shadow.glowBrand"
-              transition="transform 180ms ease, background 180ms ease"
-              _hover={{ transform: "translateY(-2px)", bg: "bg.glassStrong" }}
+              _hover={{ bg: "bg.glassStrong" }}
             >
               <Accordion.ItemTrigger px={5} py={4} bg="transparent">
                 <Text

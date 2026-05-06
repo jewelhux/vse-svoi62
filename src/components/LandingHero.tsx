@@ -178,7 +178,7 @@ export function LandingHero({ data }: LandingHeroProps) {
 
                 <Stack gap={3}>
                   <Link
-                    href="https://yandex.ru/maps/-/CPWkRK~f"
+                    href={data.contacts.mapsPlaceUrl ?? "https://yandex.ru/maps/-/CPWkRK~f"}
                     target="_blank"
                     rel="noopener noreferrer"
                     color="inherit"

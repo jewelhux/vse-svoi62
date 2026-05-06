@@ -22,6 +22,7 @@ import {
   LandingHero,
   MobileBottomBar,
   Reveal,
+  ReviewsSection,
   SectionBlock,
   ServicesSection
 } from "./components";
@@ -124,43 +125,7 @@ export default function LandingPage() {
         </Reveal>
 
         <Reveal delayMs={90}>
-          <SectionBlock
-            title="Отзывы"
-            subtitle="Что говорят клиенты"
-            description="В отзывах повторяется одно и то же: честная диагностика, понятная смета и человеческое отношение."
-          >
-          <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
-            {data.reviews.map((review) => (
-              <Box
-                key={review.author}
-                p={5}
-                bg="bg.card"
-                borderRadius="xl"
-                borderWidth="1px"
-                borderColor="border.glass"
-                boxShadow="shadow.glowCyan"
-                backdropFilter="blur(12px)"
-                transition="transform 180ms ease, background 180ms ease"
-                _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
-                display="flex"
-                flexDirection="column"
-              >
-                {/* flex:1 держит подпись внизу карточки при разной длине текста */}
-                <Text flex="1" color="fg.muted" mb={4}>
-                  {review.text}
-                </Text>
-                <Text
-                  fontWeight="700"
-                  color="brand.400"
-                  textAlign="right"
-                  flexShrink={0}
-                >
-                  {review.author}
-                </Text>
-              </Box>
-            ))}
-          </SimpleGrid>
-          </SectionBlock>
+          <ReviewsSection data={data} />
         </Reveal>
 
         <Reveal delayMs={100}>
@@ -215,7 +180,7 @@ export default function LandingPage() {
           </Box>
         </Reveal>
 
-        <Reveal delayMs={120}>
+        <Reveal delayMs={0} animate={false}>
           <FaqSection data={data} />
         </Reveal>
 

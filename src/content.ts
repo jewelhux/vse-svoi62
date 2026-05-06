@@ -83,14 +83,22 @@ export const landingContent: LandingData = {
     {
       author: "Владимир",
       text: "Провели грамотную диагностику, всё объяснили и предложили разумные варианты ремонта. Теперь обращаюсь только сюда.",
+      rating: 5,
     },
     {
       author: "Галина",
       text: "Быстро помогли с поломкой, сами организовали эвакуатор и поиск деталей. Отношение к клиентам по-настоящему человеческое.",
+      rating: 5,
     },
     {
       author: "Александр",
       text: "Качественно и оперативно сделали ремонт, цены адекватные. Спасибо мастеру и всей команде.",
+      rating: 5,
+    },
+    {
+      author: "Ирина",
+      text: "Аккуратно сделали кузовные работы и подобрали цвет без отличий. По срокам уложились, по смете всё прозрачно.",
+      rating: 5,
     },
   ],
   faq: [
@@ -142,6 +150,14 @@ export const landingContent: LandingData = {
     workingHours: "Ежедневно, без выходных",
     mapEmbedUrl:
       "https://yandex.ru/map-widget/v1/?ll=39.745240%2C54.600194&z=16&pt=39.745240%2C54.600194%2Cpm2rdm&l=map",
+    mapsPlaceUrl: "https://yandex.ru/maps/-/CPWkrFml",
+  },
+  reviewsSource: {
+    // Важно: Яндекс обычно блокирует прямой парсинг страницы (SmartCaptcha),
+    // поэтому отзывы лучше отдавать через ваш прокси/эндпойнт (см. VITE_YANDEX_REVIEWS_ENDPOINT).
+    endpointUrl: "/api/yandex-reviews",
+    placeUrl: "https://yandex.ru/maps/-/CPWkrFml",
+    disclosureText: "Отзывы подгружаются из Яндекс.Карт.",
   },
   galleryImages: [
     "/images/gallery-1.svg",

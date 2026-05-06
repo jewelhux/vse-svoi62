@@ -10,6 +10,11 @@ export type RevealProps = {
    */
   delayMs?: number;
   y?: number;
+  /**
+   * Полностью отключает анимацию появления (без IntersectionObserver).
+   * Нужен точечно, когда блок визуально "прыгает" при появлении.
+   */
+  animate?: boolean;
 };
 
 function usePrefersReducedMotion() {
@@ -28,19 +33,25 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-export function Reveal({ children, delayMs = 0, y = 10 }: RevealProps) {
+export function Reveal({
+  children,
+  delayMs = 0,
+  y = 10,
+  animate = true,
+}: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isInView, setInView] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
-  const visible = reducedMotion ? true : isInView;
+  const shouldAnimate = animate && !reducedMotion;
+  const visible = shouldAnimate ? isInView : true;
 
   const transition = useMemo(() => {
-    if (reducedMotion) return "none";
+    if (!shouldAnimate) return "none";
     return `opacity 520ms cubic-bezier(0.2, 0.9, 0.2, 1) ${delayMs}ms, transform 520ms cubic-bezier(0.2, 0.9, 0.2, 1) ${delayMs}ms`;
-  }, [delayMs, reducedMotion]);
+  }, [delayMs, shouldAnimate]);
 
   useEffect(() => {
-    if (reducedMotion) return;
+    if (!shouldAnimate) return;
 
     const node = ref.current;
     if (!node) return;
@@ -59,7 +70,7 @@ export function Reveal({ children, delayMs = 0, y = 10 }: RevealProps) {
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [reducedMotion]);
+  }, [shouldAnimate]);
 
   return (
     <Box
@@ -67,7 +78,7 @@ export function Reveal({ children, delayMs = 0, y = 10 }: RevealProps) {
       opacity={visible ? 1 : 0}
       transform={visible ? "translateY(0)" : `translateY(${y}px)`}
       transition={transition}
-      willChange={reducedMotion ? "auto" : "opacity, transform"}
+      willChange={shouldAnimate ? "opacity, transform" : "auto"}
     >
       {children}
     </Box>
