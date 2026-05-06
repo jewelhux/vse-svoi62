@@ -60,7 +60,7 @@ export function LandingHeader({ data }: LandingHeaderProps) {
       lazyMount
       unmountOnExit
     >
-      <Container maxW="1200px" py={{ base: 2, md: 4 }}>
+      <Container maxW="1200px" pt={{ base: 1, md: 4 }} pb={{ base: 2, md: 4 }}>
         <Flex align="center" justify="space-between" gap={4}>
           <Link href="#" display="inline-flex" alignItems="center">
             <Image

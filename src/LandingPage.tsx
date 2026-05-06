@@ -80,6 +80,9 @@ export default function LandingPage() {
         position="sticky"
         top={0}
         zIndex={10}
+        // На iOS Safari фон может заходить под статус-бар, поэтому шапка
+        // должна явно учитывать верхний safe-area.
+        pt={{ base: "env(safe-area-inset-top, 0px)", md: 0 }}
         bg="rgba(13, 15, 20, 0.72)"
         borderBottomWidth="1px"
         borderColor="border.glass"
