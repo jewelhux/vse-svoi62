@@ -29,18 +29,18 @@ import {
 
 const aboutHighlights = [
   {
-    value: "2006",
+    value: "c 2006 года",
     description: "Работаем с автомобилями и сопровождаем ремонт от диагностики до выдачи.",
     boxShadow: "shadow.glowBrand",
   },
   {
-    value: "6+",
+    value: "Более 6+",
     description: "Основных направлений: от кузовных работ до полировки и тюнинга.",
     boxShadow: "shadow.glowCyan",
   },
   {
-    value: "1",
-    description: "Основной сценарий связи: Telegram или звонок без лишних промежуточных шагов.",
+    value: "Более 1000+",
+    description: "Положительных отзывов: множество людей доверяют именно нам",
     boxShadow: "shadow.glowBrand",
   },
 ] as const;
@@ -55,8 +55,8 @@ const staticCardProps = {
 
 const interactiveCardProps = {
   ...staticCardProps,
-  transition: "transform 180ms ease, background 180ms ease",
-  _hover: { transform: "translateY(-3px)", bg: "bg.glassStrong" },
+  transition: "transform 180ms ease",
+  _hover: { transform: "translateY(-3px)" },
 } as const;
 
 export default function LandingPage() {

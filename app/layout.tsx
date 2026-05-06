@@ -27,17 +27,17 @@ export const metadata: Metadata = {
         url: "/images/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Все Свои 62 - автосервис в Рязани"
-      }
-    ]
+        alt: "Все Свои 62 - автосервис в Рязани",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Автосервис в Рязани - Все Свои 62",
     description:
       "Кузовные, малярные, слесарные работы и тюнинг. Запись через Telegram.",
-    images: ["/images/og-image.svg"]
-  }
+    images: ["/images/og-image.svg"],
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

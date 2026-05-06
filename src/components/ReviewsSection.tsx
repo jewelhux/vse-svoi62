@@ -317,8 +317,8 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
                   borderColor="border.glass"
                   boxShadow="shadow.glowCyan"
                   backdropFilter="blur(12px)"
-                  transition="transform 180ms ease, background 180ms ease"
-                  _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
+                  transition="transform 180ms ease"
+                  _hover={{ transform: "translateY(-3px)" }}
                   display="flex"
                   flexDirection="column"
                   gap={4}

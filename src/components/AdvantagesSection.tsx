@@ -48,8 +48,8 @@ export function AdvantagesSection({ data }: AdvantagesSectionProps) {
             borderColor="border.glass"
             boxShadow="shadow.glowBrand"
             backdropFilter="blur(12px)"
-            transition="transform 180ms ease, background 180ms ease"
-            _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
+            transition="transform 180ms ease"
+            _hover={{ transform: "translateY(-3px)" }}
           >
             <AdvantageIcon src={item.iconSrc} />
             <Text fontWeight="700" mb={2}>
