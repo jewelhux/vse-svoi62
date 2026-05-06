@@ -31,6 +31,26 @@ export function SectionBlock({
         <Text
           as={subtitle ? "span" : "h2"}
           aria-hidden={subtitle ? true : undefined}
+          display={{ base: "block", md: "none" }}
+          fontSize={{ base: "36px", md: "64px" }}
+          fontWeight="700"
+          letterSpacing={titleLetterSpacing ?? "0.14em"}
+          lineHeight={{ base: "1.05", md: "1" }}
+          // На Android/WebKit `text-stroke` у Manrope даёт артефакты на кириллице,
+          // поэтому на мобильных рисуем декоративный заголовок полупрозрачной заливкой.
+          color="brand.400"
+          userSelect="none"
+          pointerEvents={subtitle ? "none" : undefined}
+          whiteSpace={{ base: "normal", md: "nowrap" }}
+          overflowWrap="anywhere"
+        >
+          {title}
+        </Text>
+
+        <Text
+          as={subtitle ? "span" : "h2"}
+          aria-hidden={subtitle ? true : undefined}
+          display={{ base: "none", md: "block" }}
           fontSize={{ base: "36px", md: "64px" }}
           fontWeight="800"
           letterSpacing={titleLetterSpacing ?? "0.14em"}
@@ -42,7 +62,7 @@ export function SectionBlock({
           overflowWrap="anywhere"
           style={{
             WebkitTextStroke: "1px rgba(255,255,255,0.16)",
-            // Снаружи букв — очень лёгкое золотое ореол (без плотного «заливного» слоя у контура)
+            // Снаружи букв - очень лёгкое золотое ореол без плотной заливки у контура.
             textShadow: "0 0 52px rgba(239,163,16,0.055)",
           }}
         >
