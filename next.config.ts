@@ -3,14 +3,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
-const repositoryName = "vse-svoi62";
-const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
-  basePath: isGithubActions ? `/${repositoryName}` : "",
-  assetPrefix: isGithubActions ? `/${repositoryName}/` : undefined,
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : undefined,
   turbopack: {
     root: projectRoot
   },
