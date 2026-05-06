@@ -1,4 +1,5 @@
-import { Box, Link, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { Box, HStack, Icon, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { FiPhone, FiSend } from "react-icons/fi";
 import type { LandingData } from "../types";
 import { CtaButtons } from "./CtaButtons";
 import { SectionBlock } from "./SectionBlock";
@@ -11,8 +12,8 @@ export function ContactsSection({ data }: ContactsSectionProps) {
   return (
     <SectionBlock
       id="contacts"
-      eyebrow="Контакты"
-      title="Связаться с сервисом"
+      title="Контакты"
+      subtitle="Связаться с сервисом"
       description="Можно сразу написать в Telegram, позвонить или приехать по адресу в Рязани."
     >
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6}>
@@ -26,21 +27,21 @@ export function ContactsSection({ data }: ContactsSectionProps) {
           boxShadow="shadow.glowBrand"
           backdropFilter="blur(12px)"
         >
-          <Text fontWeight="700">Телефон</Text>
-          <Link href={`tel:${data.contacts.phone.replace(/\s/g, "")}`} color="fg.default" _hover={{ color: "brand.300" }}>
-            {data.contacts.phone}
-          </Link>
-          <Text fontWeight="700" mt={2}>
-            Telegram
-          </Text>
-          <Link
-            href={data.contacts.telegramUrl}
-            target="_blank"
-            color="brand.300"
-            _hover={{ color: "brand.200" }}
-          >
-            {data.contacts.telegramUrl}
-          </Link>
+          <Text fontWeight="700">Связаться</Text>
+          <Stack gap={2}>
+            <HStack gap={2} color="fg.default">
+              <Icon as={FiSend} color="brand.400" boxSize={5} />
+              <Text as="span" fontWeight="600">
+                Telegram: @Zheka_vsesvoi
+              </Text>
+            </HStack>
+            <HStack gap={2} color="fg.default">
+              <Icon as={FiPhone} color="brand.400" boxSize={5} />
+              <Text as="span" fontWeight="600">
+                Телефон: {data.contacts.phone}
+              </Text>
+            </HStack>
+          </Stack>
           <Text fontWeight="700" mt={2}>
             Адрес
           </Text>

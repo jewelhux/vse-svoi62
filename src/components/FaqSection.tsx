@@ -10,13 +10,17 @@ export function FaqSection({ data }: FaqSectionProps) {
   return (
     <SectionBlock
       id="faq"
-      eyebrow="FAQ"
-      title="Частые вопросы"
+      title="FAQ"
+      subtitle="Частые вопросы"
       description="Собрали базовые ответы, которые помогают быстро понять сценарий работы сервиса."
     >
       <Accordion.Root collapsible display="grid" gap={3}>
         {data.faq.map((faqItem, index) => (
-          <Accordion.Item key={faqItem.question} value={`item-${index}`} border="none">
+          <Accordion.Item
+            key={faqItem.question}
+            value={`item-${index}`}
+            border="none"
+          >
             <Box
               bg="bg.card"
               borderWidth="1px"
@@ -29,10 +33,15 @@ export function FaqSection({ data }: FaqSectionProps) {
               _hover={{ transform: "translateY(-2px)", bg: "bg.glassStrong" }}
             >
               <Accordion.ItemTrigger px={5} py={4} bg="transparent">
-                <Text flex="1" textAlign="left" fontWeight="700" color="fg.default">
+                <Text
+                  flex="1"
+                  textAlign="left"
+                  fontWeight="700"
+                  color="fg.default"
+                >
                   {faqItem.question}
                 </Text>
-                <Accordion.ItemIndicator color="brand.300" />
+                <Accordion.ItemIndicator color="brand.400" />
               </Accordion.ItemTrigger>
               <Accordion.ItemContent>
                 <Accordion.ItemBody

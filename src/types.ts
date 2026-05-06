@@ -7,11 +7,12 @@ export type Service = {
 export type Advantage = {
   title: string;
   description: string;
+  /** Иконка из `public/images/icons` (маска под цвет `brand`) */
+  iconSrc: string;
 };
 
 export type Review = {
   author: string;
-  role: string;
   text: string;
 };
 

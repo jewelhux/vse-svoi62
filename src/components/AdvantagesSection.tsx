@@ -1,5 +1,4 @@
-import { Box, Icon, SimpleGrid, Text } from "@chakra-ui/react";
-import { FiShield } from "react-icons/fi";
+import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import type { LandingData } from "../types";
 import { SectionBlock } from "./SectionBlock";
 
@@ -7,11 +6,35 @@ export type AdvantagesSectionProps = {
   data: LandingData;
 };
 
+/** SVG в public с чёрной заливкой: цвет задаётся токеном `brand` через mask. */
+function AdvantageIcon({ src }: { src: string }) {
+  return (
+    <Box
+      aria-hidden
+      mb={3}
+      w="32px"
+      h="32px"
+      flexShrink={0}
+      bg="brand.400"
+      style={{
+        WebkitMaskImage: `url(${src})`,
+        WebkitMaskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        WebkitMaskSize: "contain",
+        maskImage: `url(${src})`,
+        maskRepeat: "no-repeat",
+        maskPosition: "center",
+        maskSize: "contain",
+      }}
+    />
+  );
+}
+
 export function AdvantagesSection({ data }: AdvantagesSectionProps) {
   return (
     <SectionBlock
-      eyebrow="Преимущества"
-      title="Почему к нам обращаются за ремонтом и обслуживанием"
+      title="Преимущества"
+      subtitle="Почему к нам обращаются за ремонтом и обслуживанием"
       description={data.sectionIntro}
     >
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={4}>
@@ -28,7 +51,7 @@ export function AdvantagesSection({ data }: AdvantagesSectionProps) {
             transition="transform 180ms ease, background 180ms ease"
             _hover={{ transform: "translateY(-3px)", bg: "bg.glassStrong" }}
           >
-            <Icon as={FiShield} color="brand.400" mb={3} />
+            <AdvantageIcon src={item.iconSrc} />
             <Text fontWeight="700" mb={2}>
               {item.title}
             </Text>

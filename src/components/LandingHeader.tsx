@@ -3,17 +3,19 @@
 import {
   Box,
   Button,
+  CloseButton,
   Container,
+  Drawer,
   Flex,
   HStack,
   Icon,
   Link,
+  Portal,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useId, useMemo, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { CtaButtons } from "./CtaButtons";
 import type { LandingData } from "../types";
@@ -24,12 +26,12 @@ export type LandingHeaderProps = {
 
 export function LandingHeader({ data }: LandingHeaderProps) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [portalNode, setPortalNode] = useState<HTMLElement | null>(null);
+  const mobileMenuId = useId();
 
   const navItems = useMemo(
     () => [
       { href: "#services", label: "Услуги" },
-      { href: "#works", label: "Работы" },
+      { href: "#process", label: "Процесс" },
       { href: "#faq", label: "FAQ" },
       { href: "#contacts", label: "Контакты" },
     ],
@@ -37,167 +39,166 @@ export function LandingHeader({ data }: LandingHeaderProps) {
   );
 
   useEffect(() => {
-    if (!isMobileMenuOpen) return;
+    const mediaQuery = window.matchMedia("(min-width: 48em)");
 
-    const prevOverflow = document.body.style.overflow;
-    const prevPaddingRight = document.body.style.paddingRight;
-    document.body.style.overflow = "hidden";
-    // Компенсируем исчезновение скроллбара, чтобы не было «прыжка» верстки.
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileMenuOpen(false);
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      if (event.matches) {
+        setMobileMenuOpen(false);
+      }
     };
 
-    window.addEventListener("keydown", onKeyDown);
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleChange);
+
     return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = prevOverflow;
-      document.body.style.paddingRight = prevPaddingRight;
+      mediaQuery.removeEventListener("change", handleChange);
     };
-  }, [isMobileMenuOpen]);
-
-  useEffect(() => {
-    setPortalNode(document.body);
   }, []);
 
   return (
-    <Container maxW="1200px" py={{ base: 3, md: 4 }}>
-      <Flex align="center" justify="space-between" gap={4}>
-        <Link href="#" display="inline-flex" alignItems="center">
-          <Image
-            src={data.logoSrc}
-            alt={`${data.brandName} логотип`}
-            width={184}
-            height={44}
-            priority
-            style={{ height: "auto", width: "auto", maxHeight: 44 }}
-          />
-        </Link>
-        <HStack display={{ base: "none", md: "flex" }} gap={6}>
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              fontWeight="600"
-              color="fg.muted"
-              _hover={{ color: "fg.default" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </HStack>
-        <HStack display={{ base: "none", lg: "flex" }}>
-          <CtaButtons
-            phone={data.contacts.phone}
-            telegramUrl={data.contacts.telegramUrl}
-            compact
-          />
-        </HStack>
-        <Button
-          size="sm"
-          display={{ base: "inline-flex", md: "none" }}
-          variant="outline"
-          borderColor="border.glass"
-          color="fg.default"
-          bg="rgba(13, 15, 20, 0.92)"
-          _hover={{ bg: "rgba(13, 15, 20, 1)" }}
-          onClick={() => setMobileMenuOpen((p) => !p)}
-          px={3}
-        >
-          <Icon as={isMobileMenuOpen ? FiX : FiMenu} boxSize={5} />
-        </Button>
-      </Flex>
+    <Drawer.Root
+      open={isMobileMenuOpen}
+      onOpenChange={(details) => setMobileMenuOpen(details.open)}
+      placement="end"
+      size="xs"
+      lazyMount
+      unmountOnExit
+    >
+      <Container maxW="1200px" py={{ base: 3, md: 4 }}>
+        <Flex align="center" justify="space-between" gap={4}>
+          <Link href="#" display="inline-flex" alignItems="center">
+            <Image
+              src={data.logoSrc}
+              alt={`${data.brandName} логотип`}
+              width={184}
+              height={44}
+              priority
+              style={{ height: "auto", width: "auto", maxHeight: 44 }}
+            />
+          </Link>
+          <HStack display={{ base: "none", md: "flex" }} gap={6}>
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                fontWeight="600"
+                color="fg.muted"
+                _hover={{ color: "fg.default" }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </HStack>
+          <HStack display={{ base: "none", lg: "flex" }}>
+            <CtaButtons
+              phone={data.contacts.phone}
+              telegramUrl={data.contacts.telegramUrl}
+              compact
+            />
+          </HStack>
+          <Button
+            size="sm"
+            display={{ base: "inline-flex", md: "none" }}
+            variant="outline"
+            borderColor="border.glass"
+            color="fg.default"
+            bg="bg.glass"
+            backdropFilter="blur(12px)"
+            _hover={{ bg: "bg.glassStrong" }}
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            px={3}
+            aria-label={isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls={mobileMenuId}
+          >
+            <Icon as={isMobileMenuOpen ? FiX : FiMenu} boxSize={5} />
+          </Button>
+        </Flex>
+      </Container>
 
-      {isMobileMenuOpen && portalNode
-        ? createPortal(
-            <Box
-              display={{ base: "block", md: "none" }}
-              position="fixed"
-              inset={0}
-              zIndex={2000}
-              bg="bg.canvas"
-            >
-              <Container maxW="1200px" py={5}>
-                <Flex align="center" justify="space-between" gap={4}>
-                  <Link
-                    href="#"
-                    display="inline-flex"
-                    alignItems="center"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Image
-                      src={data.logoSrc}
-                      alt={`${data.brandName} логотип`}
-                      width={184}
-                      height={44}
-                      style={{ height: "auto", width: "auto", maxHeight: 44 }}
-                    />
-                  </Link>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    borderColor="border.glass"
-                    bg="rgba(13, 15, 20, 0.92)"
-                    color="fg.default"
-                    _hover={{ bg: "rgba(13, 15, 20, 1)" }}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Icon as={FiX} boxSize={5} />
-                  </Button>
-                </Flex>
-              </Container>
+      <Portal>
+        <Drawer.Backdrop
+          display={{ base: "block", md: "none" }}
+          bg="rgba(13, 15, 20, 0.88)"
+          backdropFilter="blur(12px)"
+        />
+        <Drawer.Positioner display={{ base: "flex", md: "none" }}>
+          <Drawer.Content
+            id={mobileMenuId}
+            bg="rgba(13, 15, 20, 0.96)"
+            borderLeftWidth="1px"
+            borderColor="border.glass"
+            boxShadow="shadow.glowBrand"
+            maxW="min(92vw, 420px)"
+          >
+            <Drawer.Header px={6} pt={6} pb={4}>
+              <Stack gap={1}>
+                <Text
+                  color="fg.subtle"
+                  fontSize="xs"
+                  letterSpacing="0.16em"
+                  textTransform="uppercase"
+                >
+                  Навигация
+                </Text>
+                <Drawer.Title fontSize="xl" fontWeight="700" color="fg.default">
+                  Меню
+                </Drawer.Title>
+                <Drawer.Description color="fg.muted">
+                  Быстрые переходы по разделам и основные способы связи.
+                </Drawer.Description>
+              </Stack>
+            </Drawer.Header>
 
-              <Container maxW="1200px" height="calc(100% - 88px)" pb={8}>
-                <Stack height="100%" gap={6}>
-                  <Stack gap={2} pt={2}>
-                    {navItems.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        fontSize={{ base: "2xl", md: "3xl" }}
-                        fontWeight="800"
-                        letterSpacing="-0.02em"
-                        py={4}
-                        px={4}
-                        borderRadius="xl"
-                        bg="rgba(23,26,34,0.92)"
-                        borderWidth="1px"
-                        borderColor="rgba(255,255,255,0.08)"
-                        _hover={{ bg: "rgba(23,26,34,1)", color: "brand.300" }}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </Stack>
+            <Drawer.CloseTrigger asChild>
+              <CloseButton
+                size="sm"
+                position="absolute"
+                top={4}
+                right={4}
+                color="fg.default"
+                bg="bg.glass"
+                borderWidth="1px"
+                borderColor="border.glass"
+                _hover={{ bg: "bg.glassStrong" }}
+              />
+            </Drawer.CloseTrigger>
 
-                  <Box mt="auto">
-                    <Box
-                      bg="rgba(23,26,34,0.92)"
-                      borderWidth="1px"
-                      borderColor="rgba(255,255,255,0.08)"
-                      borderRadius="2xl"
-                      p={5}
+            <Drawer.Body px={6} pb={6}>
+              <Stack minH="100%" gap={8}>
+                <Stack gap={4}>
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      fontSize="xl"
+                      fontWeight="700"
+                      color="fg.default"
+                      _hover={{ color: "brand.400" }}
                     >
-                      <CtaButtons phone={data.contacts.phone} telegramUrl={data.contacts.telegramUrl} />
-                      <Text mt={4} fontSize="sm" color="fg.subtle">
-                        {data.contacts.workingHours}
-                      </Text>
-                      <Text fontSize="sm" color="fg.subtle">
-                        {data.contacts.address}
-                      </Text>
-                    </Box>
-                  </Box>
+                      {item.label}
+                    </Link>
+                  ))}
                 </Stack>
-              </Container>
-            </Box>,
-            portalNode,
-          )
-        : null}
-    </Container>
+
+                <Box mt="auto">
+                  <CtaButtons
+                    phone={data.contacts.phone}
+                    telegramUrl={data.contacts.telegramUrl}
+                  />
+                  <Text mt={3} fontSize="sm" color="fg.subtle">
+                    {data.contacts.workingHours}
+                  </Text>
+                  <Text fontSize="sm" color="fg.subtle">
+                    {data.contacts.address}
+                  </Text>
+                </Box>
+              </Stack>
+            </Drawer.Body>
+          </Drawer.Content>
+        </Drawer.Positioner>
+      </Portal>
+    </Drawer.Root>
   );
 }

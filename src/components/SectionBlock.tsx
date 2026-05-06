@@ -1,61 +1,65 @@
 import type { ReactNode } from "react";
-import { Box, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 
 export type SectionBlockProps = {
   id?: string;
-  eyebrow?: string;
+  /** Короткая метка — крупный «обводной» заголовок (раньше eyebrow). */
   title: string;
+  /** Основной заголовок секции (раньше title в Heading). */
+  subtitle?: string;
   description?: string;
   children: ReactNode;
 };
 
 export function SectionBlock({
   id,
-  eyebrow,
   title,
+  subtitle,
   description,
   children,
 }: SectionBlockProps) {
   return (
-    <Stack id={id} gap={{ base: 8, md: 10 }} mt={{ base: 18, md: 24 }}>
+    <Stack
+      id={id}
+      gap={{ base: 8, md: 10 }}
+      mt={{ base: 18, md: 24 }}
+      scrollMarginTop={{ base: "88px", md: "104px" }}
+    >
       <Stack gap={{ base: 4, md: 5 }} maxW="780px" position="relative">
-        {eyebrow ? (
-          <Text
-            position="absolute"
-            top={{ base: "-22px", md: "-34px" }}
-            left={0}
-            fontSize={{ base: "44px", md: "64px" }}
-            fontWeight="800"
-            letterSpacing="0.14em"
-            lineHeight="1"
-            color="transparent"
-            userSelect="none"
-            pointerEvents="none"
-            whiteSpace="nowrap"
-            style={{
-              WebkitTextStroke: "1px rgba(255,255,255,0.16)",
-              textShadow: "0 0 28px rgba(47,170,255,0.06)",
-            }}
-          >
-            {eyebrow}
-          </Text>
-        ) : null}
-
-        {eyebrow ? (
-          <Text
-            color="brand.300"
-            fontWeight="700"
-            textTransform="uppercase"
-            letterSpacing="0.16em"
-            fontSize="xs"
-          >
-            {eyebrow}
-          </Text>
-        ) : null}
-
-        <Heading size="xl" letterSpacing="-0.03em" lineHeight="1.1">
+        <Text
+          as={subtitle ? "span" : "h2"}
+          aria-hidden={subtitle ? true : undefined}
+          fontSize={{ base: "36px", md: "64px" }}
+          fontWeight="800"
+          letterSpacing="0.14em"
+          lineHeight={{ base: "1.05", md: "1" }}
+          color="transparent"
+          userSelect="none"
+          pointerEvents={subtitle ? "none" : undefined}
+          whiteSpace={{ base: "normal", md: "nowrap" }}
+          overflowWrap="anywhere"
+          style={{
+            WebkitTextStroke: "1px rgba(255,255,255,0.16)",
+            // Снаружи букв — очень лёгкое золотое ореол (без плотного «заливного» слоя у контура)
+            textShadow: "0 0 52px rgba(239,163,16,0.055)",
+          }}
+        >
           {title}
-        </Heading>
+        </Text>
+
+        {subtitle ? (
+          <Text
+            as="h2"
+            color="fg.default"
+            fontSize={{ base: "2xl", md: "3xl" }}
+            fontWeight="700"
+            letterSpacing="-0.03em"
+            lineHeight="1.15"
+            maxW="48rem"
+          >
+            {subtitle}
+          </Text>
+        ) : null}
 
         <Box
           height="1px"

@@ -12,8 +12,8 @@ export function ServicesSection({ data }: ServicesSectionProps) {
   return (
     <SectionBlock
       id="services"
-      eyebrow="Услуги"
-      title="Основные направления работы сервиса"
+      title="Услуги"
+      subtitle="Основные направления работы сервиса"
       description="Закрываем как локальные задачи, так и полноценный комплекс кузовного, слесарного и малярного ремонта."
     >
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
