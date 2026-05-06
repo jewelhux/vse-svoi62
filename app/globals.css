@@ -31,3 +31,16 @@ a {
   background: rgba(239, 163, 16, 0.28);
   color: rgba(255, 255, 255, 0.92);
 }
+
+@media (max-width: 767px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}

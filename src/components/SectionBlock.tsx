@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Stack, Text, type TextProps } from "@chakra-ui/react";
 
 export type SectionBlockProps = {
   id?: string;
@@ -7,6 +7,7 @@ export type SectionBlockProps = {
   title: string;
   /** Основной заголовок секции (раньше title в Heading). */
   subtitle?: string;
+  titleLetterSpacing?: TextProps["letterSpacing"];
   description?: string;
   children: ReactNode;
 };
@@ -15,6 +16,7 @@ export function SectionBlock({
   id,
   title,
   subtitle,
+  titleLetterSpacing,
   description,
   children,
 }: SectionBlockProps) {
@@ -31,7 +33,7 @@ export function SectionBlock({
           aria-hidden={subtitle ? true : undefined}
           fontSize={{ base: "36px", md: "64px" }}
           fontWeight="800"
-          letterSpacing="0.14em"
+          letterSpacing={titleLetterSpacing ?? "0.14em"}
           lineHeight={{ base: "1.05", md: "1" }}
           color="transparent"
           userSelect="none"

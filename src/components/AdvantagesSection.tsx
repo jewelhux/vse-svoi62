@@ -37,6 +37,7 @@ export function AdvantagesSection({ data }: AdvantagesSectionProps) {
   return (
     <SectionBlock
       title="Преимущества"
+      titleLetterSpacing={{ base: "0.02em", md: "0.14em" }}
       subtitle="Почему к нам обращаются за ремонтом и обслуживанием"
       description={data.sectionIntro}
     >

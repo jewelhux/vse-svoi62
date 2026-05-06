@@ -29,15 +29,15 @@ export function ContactsSection({ data }: ContactsSectionProps) {
         >
           <Text fontWeight="700">Связаться</Text>
           <Stack gap={2}>
-            <HStack gap={2} color="fg.default">
+            <HStack gap={2} color="fg.default" align="flex-start">
               <Icon as={FiSend} color="brand.400" boxSize={5} />
-              <Text as="span" fontWeight="600">
+              <Text fontWeight="600" flex={1} minW={0} lineHeight="short">
                 Telegram: @Zheka_vsesvoi
               </Text>
             </HStack>
-            <HStack gap={2} color="fg.default">
+            <HStack gap={2} color="fg.default" align="flex-start">
               <Icon as={FiPhone} color="brand.400" boxSize={5} />
-              <Text as="span" fontWeight="600">
+              <Text fontWeight="600" flex={1} minW={0} lineHeight="short">
                 Телефон: {data.contacts.phone}
               </Text>
             </HStack>

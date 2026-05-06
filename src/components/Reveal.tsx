@@ -2,6 +2,8 @@ import { Box } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+const REVEAL_DURATION_MS = 440;
+
 export type RevealProps = {
   children: ReactNode;
   /**
@@ -41,13 +43,14 @@ export function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isInView, setInView] = useState(false);
+  const [isAnimating, setAnimating] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
   const shouldAnimate = animate && !reducedMotion;
   const visible = shouldAnimate ? isInView : true;
 
   const transition = useMemo(() => {
     if (!shouldAnimate) return "none";
-    return `opacity 520ms cubic-bezier(0.2, 0.9, 0.2, 1) ${delayMs}ms, transform 520ms cubic-bezier(0.2, 0.9, 0.2, 1) ${delayMs}ms`;
+    return `opacity ${REVEAL_DURATION_MS}ms cubic-bezier(0.2, 0.9, 0.2, 1) ${delayMs}ms, transform ${REVEAL_DURATION_MS}ms cubic-bezier(0.2, 0.9, 0.2, 1) ${delayMs}ms`;
   }, [delayMs, shouldAnimate]);
 
   useEffect(() => {
@@ -56,16 +59,27 @@ export function Reveal({
     const node = ref.current;
     if (!node) return;
 
+    if (typeof IntersectionObserver === "undefined") {
+      const frameId = window.requestAnimationFrame(() => {
+        setAnimating(true);
+        setInView(true);
+      });
+
+      return () => window.cancelAnimationFrame(frameId);
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (!entry) return;
         if (entry.isIntersecting) {
+          setAnimating(true);
           setInView(true);
           observer.disconnect();
         }
       },
-      { root: null, threshold: 0.14, rootMargin: "120px 0px -10% 0px" },
+      // На мобильных заранее запускаем reveal, чтобы блок не успевал "появиться" без выезда.
+      { root: null, threshold: 0.01, rootMargin: "180px 0px 80px 0px" },
     );
 
     observer.observe(node);
@@ -76,9 +90,11 @@ export function Reveal({
     <Box
       ref={ref}
       opacity={visible ? 1 : 0}
-      transform={visible ? "translateY(0)" : `translateY(${y}px)`}
+      transform={visible ? "translate3d(0, 0, 0)" : `translate3d(0, ${y}px, 0)`}
       transition={transition}
-      willChange={shouldAnimate ? "opacity, transform" : "auto"}
+      willChange={shouldAnimate && (!visible || isAnimating) ? "opacity, transform" : "auto"}
+      onTransitionEnd={() => setAnimating(false)}
+      style={{ backfaceVisibility: "hidden" }}
     >
       {children}
     </Box>

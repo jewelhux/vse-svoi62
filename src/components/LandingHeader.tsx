@@ -60,7 +60,7 @@ export function LandingHeader({ data }: LandingHeaderProps) {
       lazyMount
       unmountOnExit
     >
-      <Container maxW="1200px" py={{ base: 3, md: 4 }}>
+      <Container maxW="1200px" py={{ base: 2, md: 4 }}>
         <Flex align="center" justify="space-between" gap={4}>
           <Link href="#" display="inline-flex" alignItems="center">
             <Image
@@ -69,7 +69,12 @@ export function LandingHeader({ data }: LandingHeaderProps) {
               width={184}
               height={44}
               priority
-              style={{ height: "auto", width: "auto", maxHeight: 44 }}
+              style={{
+                display: "block",
+                width: "64px",
+                maxWidth: "100%",
+                height: "auto",
+              }}
             />
           </Link>
           <HStack display={{ base: "none", md: "flex" }} gap={6}>
