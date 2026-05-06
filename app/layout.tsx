@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import { ReactNode } from "react";
 import Providers from "./providers";
 import "./globals.css";
 
-const manrope = Manrope({
-  subsets: ["cyrillic", "latin"],
+const manrope = localFont({
+  src: "../public/fonts/Manrope-VariableFont_wght.ttf",
   display: "swap",
   variable: "--font-sans",
+  weight: "200 800",
 });
 
 export const metadata: Metadata = {
